@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Entity(name = "movies")    //nadpisanie domyslnej konfiguracji celem ustalenia nazwy tabeli
+@Entity    //nadpisanie domyslnej konfiguracji celem ustalenia nazwy tabeli
 public class SimpleMovie {
 
     @Id

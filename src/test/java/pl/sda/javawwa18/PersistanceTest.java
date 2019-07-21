@@ -43,7 +43,7 @@ public class PersistanceTest {
     @Test(dependsOnMethods = "saveMovies")
     public void readMovies() {
         try(Session session = sessionFactory.openSession()) {
-            List<SimpleMovie> movies = session.createQuery("from Movies", SimpleMovie.class).list();
+            List<SimpleMovie> movies = session.createQuery("from SimpleMovie", SimpleMovie.class).list();
             assertEquals(movies.size(), 2);
             for(SimpleMovie movie : movies)
                 System.out.println(movie.getTitle());
