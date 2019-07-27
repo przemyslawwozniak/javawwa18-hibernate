@@ -16,4 +16,6 @@ public interface MovieService {
 
     Movie updateMovie(String title, int rentedTimes, double avgScore, Session session);
 
+    Movie removeMovie(String title, Session session);
+
 }

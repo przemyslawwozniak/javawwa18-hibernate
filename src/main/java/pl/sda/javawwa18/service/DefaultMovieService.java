@@ -52,4 +52,18 @@ public class DefaultMovieService implements MovieService {
         tx.commit();
         return movie;
     }
+
+    @Override
+    public Movie removeMovie(String title, Session session) {
+        Movie movie = findMovie(title, session);
+
+        if(movie == null)
+            return null;
+
+        Transaction tx = session.beginTransaction();
+        session.delete(movie);
+        tx.commit();
+        //zwracamy obiekt JVM - encja Hibernate w stanie 'removed'
+        return movie;
+    }
 }

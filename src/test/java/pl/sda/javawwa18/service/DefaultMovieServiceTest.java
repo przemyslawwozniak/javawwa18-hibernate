@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 
 public class DefaultMovieServiceTest {
 
@@ -85,9 +86,35 @@ public class DefaultMovieServiceTest {
     @Test(dependsOnMethods = "create_movies_via_movieservice")
     public void update_movie_stats() {
         //wczytac Smierc w Wenecji
-        //sprawdzic, ze ma rentedTimes = 0
-        //zrobic modyfikacje metoda serwisu obu parametrow
+        try(Session session = sessionFactory.openSession()) {
+            Movie movie = movieService.findMovie("Smierc w Wenecji", session);
+            //sprawdzic, ze ma rentedTimes = 0
+            assertEquals(movie.getRentedTimes(), 0);
+            //zrobic modyfikacje metoda serwisu obu parametrow
+            movieService.updateMovie("Smierc w Wenecji", 5, 8.9, session);
+        }
         //wczytac w nowej sesji SwW i sprawdzic wartosci pol
+        try(Session session = sessionFactory.openSession()) {
+            Movie movie = movieService.findMovie("Smierc w Wenecji", session);
+            assertEquals(movie.getRentedTimes(), 5);
+            assertEquals(movie.getAvgScore(), 8.9);
+        }
+    }
+
+    //wykonaj ten test na koniec (inne testy potrzebuja filmu w DB)
+    @Test(dependsOnMethods = {"create_movies_via_movieservice", "update_movie_stats"})
+    public void remove_movie() {
+        try(Session session = sessionFactory.openSession()) {
+            Movie movie = movieService.findMovie("Smierc w Wenecji", session);
+            assertNotNull(movie);
+            movie = movieService.removeMovie("Smierc w Wenecji", session);
+            //obiekt JVM nadal istnieje
+            assertNotNull(movie);
+        }
+        try(Session session = sessionFactory.openSession()) {
+            Movie movie = movieService.findMovie("Smierc w Wenecji", session);
+            assertNull(movie);
+        }
     }
 
 }
