@@ -20,5 +20,10 @@
         <mapping class="pl.sda.javawwa18.domain.Movie"/>
         <mapping class="pl.sda.javawwa18.domain.Rent"/>
         <mapping class="pl.sda.javawwa18.domain.Copy"/>
+        <mapping class="pl.sda.javawwa18.domain.Email"/>
+        <mapping class="pl.sda.javawwa18.domain.EmailMapped"/>
+        <mapping class="pl.sda.javawwa18.domain.Message"/>
+        <mapping class="pl.sda.javawwa18.domain.MessageMapped"/>
+
     </session-factory>
 </hibernate-configuration>
