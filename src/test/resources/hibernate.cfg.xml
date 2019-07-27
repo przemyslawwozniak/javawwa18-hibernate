@@ -16,5 +16,6 @@
         <property name="hbm2ddl.auto">create-drop</property>
         <!-- Klasy mapowane -->
         <mapping class="pl.sda.javawwa18.SimpleMovie"/>
+        <mapping class="pl.sda.javawwa18.Customer"/>
     </session-factory>
 </hibernate-configuration>
