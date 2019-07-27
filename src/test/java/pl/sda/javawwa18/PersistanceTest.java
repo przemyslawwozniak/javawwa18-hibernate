@@ -9,6 +9,9 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import pl.sda.javawwa18.domain.Movie;
+import pl.sda.javawwa18.domain.MovieGenre;
+import pl.sda.javawwa18.domain.SimpleMovie;
 
 import java.time.LocalDate;
 import java.util.List;

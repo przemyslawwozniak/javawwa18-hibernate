@@ -1,4 +1,4 @@
-package pl.sda.javawwa18;
+package pl.sda.javawwa18.domain;
 
 import javax.persistence.*;
 

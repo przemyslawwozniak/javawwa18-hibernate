@@ -15,10 +15,10 @@
         <!-- Przy starcie aplikacji usun istniejaca baze i utworz ja od nowa -->
         <property name="hbm2ddl.auto">create-drop</property>
         <!-- Klasy mapowane -->
-        <mapping class="pl.sda.javawwa18.SimpleMovie"/>
-        <mapping class="pl.sda.javawwa18.Customer"/>
-        <mapping class="pl.sda.javawwa18.Movie"/>
-        <mapping class="pl.sda.javawwa18.Rent"/>
-        <mapping class="pl.sda.javawwa18.Copy"/>
+        <mapping class="pl.sda.javawwa18.domain.SimpleMovie"/>
+        <mapping class="pl.sda.javawwa18.domain.Customer"/>
+        <mapping class="pl.sda.javawwa18.domain.Movie"/>
+        <mapping class="pl.sda.javawwa18.domain.Rent"/>
+        <mapping class="pl.sda.javawwa18.domain.Copy"/>
     </session-factory>
 </hibernate-configuration>
