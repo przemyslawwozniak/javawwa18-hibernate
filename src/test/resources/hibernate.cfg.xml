@@ -17,5 +17,8 @@
         <!-- Klasy mapowane -->
         <mapping class="pl.sda.javawwa18.SimpleMovie"/>
         <mapping class="pl.sda.javawwa18.Customer"/>
+        <mapping class="pl.sda.javawwa18.Movie"/>
+        <mapping class="pl.sda.javawwa18.Rent"/>
+        <mapping class="pl.sda.javawwa18.Copy"/>
     </session-factory>
 </hibernate-configuration>
