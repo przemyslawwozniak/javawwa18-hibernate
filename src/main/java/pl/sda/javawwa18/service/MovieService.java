@@ -12,4 +12,6 @@ public interface MovieService {
 
     Movie findOrCreateMovie(String title, MovieGenre genre, LocalDate releaseDate, Session session);
 
+    Movie createMovie(String title, MovieGenre genre, LocalDate releaseDate, String description, Session session);
+
 }

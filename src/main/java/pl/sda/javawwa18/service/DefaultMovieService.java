@@ -12,7 +12,7 @@ public class DefaultMovieService implements MovieService {
 
     @Override
     public Movie findMovie(String title, Session session) {
-        Query<Movie> query = session.createQuery("from Movie m where m.title:=title", Movie.class);
+        Query<Movie> query = session.createQuery("from Movie m where m.title=:title", Movie.class);
         query.setParameter("title", title);
         return query.uniqueResult();
     }
@@ -21,6 +21,7 @@ public class DefaultMovieService implements MovieService {
     public Movie findOrCreateMovie(String title, MovieGenre genre, LocalDate releaseDate, Session session) {
         Movie movie = findMovie(title, session);
         if(movie == null) {
+            //createMovie
             movie = new Movie();
             movie.setTitle(title);
             movie.setGenre(genre);
@@ -30,5 +31,10 @@ public class DefaultMovieService implements MovieService {
             tx.commit();
         }
         return movie;
+    }
+
+    @Override
+    public Movie createMovie(String title, MovieGenre genre, LocalDate releaseDate, String description, Session session) {
+        return null;
     }
 }
