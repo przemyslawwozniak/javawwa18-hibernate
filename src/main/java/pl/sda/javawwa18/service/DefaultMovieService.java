@@ -21,7 +21,7 @@ public class DefaultMovieService implements MovieService {
     public Movie findOrCreateMovie(String title, MovieGenre genre, LocalDate releaseDate, Session session) {
         Movie movie = findMovie(title, session);
         if(movie == null) {
-            createMovie(title, genre, releaseDate, null, session);
+            movie = createMovie(title, genre, releaseDate, null, session);
         }
         return movie;
     }

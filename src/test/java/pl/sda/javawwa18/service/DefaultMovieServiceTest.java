@@ -2,7 +2,6 @@ package pl.sda.javawwa18.service;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -12,7 +11,6 @@ import pl.sda.javawwa18.domain.Movie;
 import pl.sda.javawwa18.domain.MovieGenre;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
