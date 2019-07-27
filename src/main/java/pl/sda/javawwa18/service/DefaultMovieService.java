@@ -21,20 +21,35 @@ public class DefaultMovieService implements MovieService {
     public Movie findOrCreateMovie(String title, MovieGenre genre, LocalDate releaseDate, Session session) {
         Movie movie = findMovie(title, session);
         if(movie == null) {
-            //createMovie
-            movie = new Movie();
-            movie.setTitle(title);
-            movie.setGenre(genre);
-            movie.setReleaseDate(releaseDate);
-            Transaction tx = session.beginTransaction();
-            session.persist(movie);
-            tx.commit();
+            createMovie(title, genre, releaseDate, null, session);
         }
         return movie;
     }
 
     @Override
     public Movie createMovie(String title, MovieGenre genre, LocalDate releaseDate, String description, Session session) {
-        return null;
+        Movie movie = new Movie();
+        movie.setTitle(title);
+        movie.setGenre(genre);
+        movie.setReleaseDate(releaseDate);
+        movie.setDescription(description);
+        Transaction tx = session.beginTransaction();
+        session.persist(movie);
+        tx.commit();
+        return movie;
+    }
+
+    @Override
+    public Movie updateMovie(String title, int rentedTimes, double avgScore, Session session) {
+        Movie movie = findMovie(title, session);
+
+        if(movie == null)
+            return null;
+
+        Transaction tx = session.beginTransaction();
+        movie.setRentedTimes(rentedTimes);
+        movie.setAvgScore(avgScore);
+        tx.commit();
+        return movie;
     }
 }

@@ -14,4 +14,6 @@ public interface MovieService {
 
     Movie createMovie(String title, MovieGenre genre, LocalDate releaseDate, String description, Session session);
 
+    Movie updateMovie(String title, int rentedTimes, double avgScore, Session session);
+
 }

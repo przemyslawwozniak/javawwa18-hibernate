@@ -82,4 +82,12 @@ public class DefaultMovieServiceTest {
         }
     }
 
+    @Test(dependsOnMethods = "create_movies_via_movieservice")
+    public void update_movie_stats() {
+        //wczytac Smierc w Wenecji
+        //sprawdzic, ze ma rentedTimes = 0
+        //zrobic modyfikacje metoda serwisu obu parametrow
+        //wczytac w nowej sesji SwW i sprawdzic wartosci pol
+    }
+
 }
