@@ -6,6 +6,7 @@ import org.hibernate.query.Query;
 import org.testng.annotations.Test;
 import pl.sda.javawwa18.util.SessionUtil;
 
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -114,6 +115,54 @@ public class MovieTest {
             assertNotNull(movie.getDaysFromRelease());
             assertEquals(movie.getDaysFromRelease(),
                     ChronoUnit.DAYS.between(movie.getReleaseDate(), LocalDate.now()));
+        }
+    }
+
+    @Test(expectedExceptions = {ConstraintViolationException.class})
+    public void invalid_score() {
+        try(Session session = SessionUtil.getSession()) {
+            Transaction tx = session.beginTransaction();
+
+            Movie movie = new Movie();
+            movie.setTitle("Smierc w Wenecji");
+            movie.setGenre(MovieGenre.ACTION);
+            movie.setReleaseDate(LocalDate.of(2001, 4, 1));
+            movie.setAvgScore(-1.0);
+
+            session.save(movie);
+            tx.commit();
+        }
+    }
+
+    @Test(expectedExceptions = {ConstraintViolationException.class})
+    public void description_too_short() {
+        try(Session session = SessionUtil.getSession()) {
+            Transaction tx = session.beginTransaction();
+
+            Movie movie = new Movie();
+            movie.setTitle("Smierc w Wenecji");
+            movie.setGenre(MovieGenre.ACTION);
+            movie.setReleaseDate(LocalDate.of(2001, 4, 1));
+            movie.setAvgScore(7.5);
+            movie.setDescription("too short description");
+
+            session.save(movie);
+            tx.commit();
+        }
+    }
+
+    @Test(expectedExceptions = {ConstraintViolationException.class})
+    public void no_title() {
+        try(Session session = SessionUtil.getSession()) {
+            Transaction tx = session.beginTransaction();
+
+            Movie movie = new Movie();
+            movie.setGenre(MovieGenre.ACTION);
+            movie.setReleaseDate(LocalDate.of(2001, 4, 1));
+            movie.setAvgScore(7.5);
+
+            session.save(movie);
+            tx.commit();
         }
     }
 

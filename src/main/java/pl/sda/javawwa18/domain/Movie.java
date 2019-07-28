@@ -3,6 +3,9 @@ package pl.sda.javawwa18.domain;
 import pl.sda.javawwa18.listener.MovieEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,6 +18,7 @@ public class Movie {
     @GeneratedValue
     Long movieId;
 
+    @NotNull
     @Column(nullable = false)
     String title;
 
@@ -25,12 +29,16 @@ public class Movie {
     @Column(nullable = false)
     LocalDate releaseDate;  //potencjalny problem z mapowaniem
 
+    @Min(100)
     @Column(length = 2000)
     String description;
 
     @Column(nullable = false, columnDefinition = "integer default 0")
     int rentedTimes;
 
+    //dla typu long, rzutowanie; dla double mozna dac @DecimalMax(Min)
+    @Min(0)
+    @Max(10)
     double avgScore;
 
     @OneToMany(orphanRemoval = true, mappedBy = "movie")
