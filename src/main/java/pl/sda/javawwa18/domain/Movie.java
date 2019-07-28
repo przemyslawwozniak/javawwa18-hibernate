@@ -1,10 +1,13 @@
 package pl.sda.javawwa18.domain;
 
+import pl.sda.javawwa18.listener.MovieEntityListener;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@EntityListeners({MovieEntityListener.class})
 @Table(name = "movies")
 public class Movie {
 
@@ -30,8 +33,11 @@ public class Movie {
 
     double avgScore;
 
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(orphanRemoval = true, mappedBy = "movie")
     List<Copy> copies;
+
+    @Transient
+    int daysFromRelease;
 
     public Long getMovieId() {
         return movieId;
@@ -91,5 +97,13 @@ public class Movie {
 
     public void setCopies(List<Copy> copies) {
         this.copies = copies;
+    }
+
+    public int getDaysFromRelease() {
+        return daysFromRelease;
+    }
+
+    public void setDaysFromRelease(int daysFromRelease) {
+        this.daysFromRelease = daysFromRelease;
     }
 }

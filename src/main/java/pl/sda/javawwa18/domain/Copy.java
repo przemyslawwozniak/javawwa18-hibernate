@@ -1,5 +1,7 @@
 package pl.sda.javawwa18.domain;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,7 +15,7 @@ public class Copy {
     @Column(nullable = false, columnDefinition = "boolean default false")
     boolean isRented;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     Movie movie;
 
     @OneToOne(mappedBy = "copy")
