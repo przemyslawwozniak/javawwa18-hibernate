@@ -2,6 +2,7 @@ package pl.sda.javawwa18.domain;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity //default: Entity.name = Customer, Table.name = Customer
 @Table(name = "customers")  //Table.name = customers
@@ -58,5 +59,23 @@ public class Customer {
 
     public void setRents(List<Rent> rents) {
         this.rents = rents;
+    }
+
+    //przy implementacji equals dla encji Hibernate korzystamy z getterow a nie pol bezposrednio
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return Objects.equals(getCustomerId(), customer.getCustomerId()) &&
+                Objects.equals(getFullName(), customer.getFullName()) &&
+                Objects.equals(getPhone(), customer.getPhone()) &&
+                Objects.equals(getAddress(), customer.getAddress());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCustomerId(), getFullName(), getPhone(), getAddress());
     }
 }

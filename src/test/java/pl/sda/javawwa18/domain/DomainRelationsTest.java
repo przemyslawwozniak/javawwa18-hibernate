@@ -64,6 +64,8 @@ public class DomainRelationsTest {
         //zostalo to zarzadzone przez relacje Hibernate
         assertNotNull(movie.getCopies());
         //assertEquals(movie.getCopies().size(), 2);
+        //assertEquals(movie.getCopies().get(0).getCopyId(), copyId1.longValue());
+        //assertEquals(movie.getCopies().get(1).getCopyId(), copyId2.longValue());
         assertNotNull(copy1.getMovie());
         assertNotNull(copy2.getMovie());
     }
