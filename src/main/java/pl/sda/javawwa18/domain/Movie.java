@@ -1,6 +1,7 @@
 package pl.sda.javawwa18.domain;
 
 import pl.sda.javawwa18.listener.MovieEntityListener;
+import pl.sda.javawwa18.validation.DvdReleaseDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @EntityListeners({MovieEntityListener.class})
 @Table(name = "movies")
+@DvdReleaseDate
 public class Movie {
 
     @Id
