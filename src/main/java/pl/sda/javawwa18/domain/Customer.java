@@ -1,6 +1,7 @@
 package pl.sda.javawwa18.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity //default: Entity.name = Customer, Table.name = Customer
 @Table(name = "customers")  //Table.name = customers
@@ -19,6 +20,9 @@ public class Customer {
 
     @Column(length = 510)
     String address;
+
+    @OneToMany(mappedBy="customer")
+    List<Rent> rents;
 
     public Long getCustomerId() {
         return customerId;
@@ -46,5 +50,13 @@ public class Customer {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public List<Rent> getRents() {
+        return rents;
+    }
+
+    public void setRents(List<Rent> rents) {
+        this.rents = rents;
     }
 }

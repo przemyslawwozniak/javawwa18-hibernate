@@ -12,9 +12,6 @@ public class Rent {
     @GeneratedValue
     Long rentId;
 
-    //Long copyId;
-    //Long customerId;
-
     @Enumerated
     @Column(nullable = false)
     RentStatus status = RentStatus.IN_RENT;
@@ -30,6 +27,12 @@ public class Rent {
     BigDecimal total;
 
     double score;
+
+    @OneToOne
+    Copy copy;
+
+    @ManyToOne
+    Customer customer;
 
     public Long getRentId() {
         return rentId;
@@ -81,5 +84,21 @@ public class Rent {
 
     public void setScore(double score) {
         this.score = score;
+    }
+
+    public Copy getCopy() {
+        return copy;
+    }
+
+    public void setCopy(Copy copy) {
+        this.copy = copy;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

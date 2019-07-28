@@ -2,6 +2,7 @@ package pl.sda.javawwa18.domain;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "movies")
@@ -28,6 +29,9 @@ public class Movie {
     int rentedTimes;
 
     double avgScore;
+
+    @OneToMany(mappedBy = "movie")
+    List<Copy> copies;
 
     public Long getMovieId() {
         return movieId;
@@ -79,5 +83,13 @@ public class Movie {
 
     public void setAvgScore(double avgScore) {
         this.avgScore = avgScore;
+    }
+
+    public List<Copy> getCopies() {
+        return copies;
+    }
+
+    public void setCopies(List<Copy> copies) {
+        this.copies = copies;
     }
 }
