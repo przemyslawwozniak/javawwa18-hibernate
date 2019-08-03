@@ -14,6 +14,9 @@ import java.util.List;
 @EntityListeners({MovieEntityListener.class})
 @Table(name = "movies")
 @DvdReleaseDate
+@NamedQueries({
+        @NamedQuery(name = "movie.findByCompany", query = "from Movie m where m.company=:company")
+})
 public class Movie {
 
     @Id
@@ -48,6 +51,8 @@ public class Movie {
 
     @Transient
     int daysFromRelease;
+
+    String company;
 
     public Long getMovieId() {
         return movieId;
@@ -115,5 +120,13 @@ public class Movie {
 
     public void setDaysFromRelease(int daysFromRelease) {
         this.daysFromRelease = daysFromRelease;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
     }
 }

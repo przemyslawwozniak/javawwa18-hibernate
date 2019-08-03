@@ -13,6 +13,7 @@ import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 
 public class MovieTest {
 
@@ -163,6 +164,39 @@ public class MovieTest {
 
             session.save(movie);
             tx.commit();
+        }
+    }
+
+    @Test
+    public void namedquery_finds_movies_by_company() {
+        //add movie to db
+        try(Session session = SessionUtil.getSession()) {
+            Transaction tx = session.beginTransaction();
+
+            Movie movie = new Movie();
+            movie.setTitle("Smierc w Wenecji");
+            movie.setGenre(MovieGenre.ACTION);
+            movie.setReleaseDate(LocalDate.of(2001, 4, 1));
+            movie.setAvgScore(7.5);
+            //movie.setDescription("Thanks. That's pretty much what I figured. I'm familiar with both of the approaches you suggested in your other answer, but I'm stuck with a nightmarish legacy db schema that just isn't well suited to the Hibernate approach for my particular case. I've made it work so far, but have some new requirements I just can't seem to meet using straight Hibernate mapping. I'm probably going to give up and use iBATIS for this one case. Not real thrilled adding another technology to the stack as a band-aid, but that's life I guess. Thanks.");
+            movie.setCompany("Warner Bros");
+
+            session.save(movie);
+            tx.commit();
+        }
+        //check named query
+        try(Session session = SessionUtil.getSession()) {
+            Query query = session.getNamedQuery("movie.findByCompany");
+            query.setParameter("company", "Warner Bros");
+            List<Movie> warnerBrosMovies = query.list();
+            assertNotNull(warnerBrosMovies);
+            assertEquals(warnerBrosMovies.size(), 1);
+            assertEquals(warnerBrosMovies.get(0).getTitle(), "Smierc w Wenecji");
+
+            Query query2 = session.getNamedQuery("movie.findByCompany");
+            query2.setParameter("company", "Janusz Movies");
+            List<Movie> januszMovies = query2.list();
+            assertEquals(januszMovies.size(), 0);
         }
     }
 
