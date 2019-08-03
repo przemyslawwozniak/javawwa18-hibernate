@@ -3,6 +3,7 @@ package pl.sda.javawwa18.domain;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import pl.sda.javawwa18.util.SessionUtil;
 
@@ -197,6 +198,89 @@ public class MovieTest {
             query2.setParameter("company", "Janusz Movies");
             List<Movie> januszMovies = query2.list();
             assertEquals(januszMovies.size(), 0);
+        }
+    }
+
+    @Test
+    public void namedquery_finds_movies_by_score_above() {
+        //add movie to db
+        try(Session session = SessionUtil.getSession()) {
+            Transaction tx = session.beginTransaction();
+
+            Movie movie = new Movie();
+            movie.setTitle("Smierc w Wenecji");
+            movie.setGenre(MovieGenre.ACTION);
+            movie.setReleaseDate(LocalDate.of(2001, 4, 1));
+            movie.setAvgScore(7.5);
+            movie.setCompany("Warner Bros");
+
+            session.save(movie);
+            tx.commit();
+        }
+        //check named query
+        try(Session session = SessionUtil.getSession()) {
+            Query query = session.getNamedQuery("movie.findByScoreAbove");
+            query.setParameter("score", 7.0);
+            List<Movie> movies = query.list();
+            assertNotNull(movies);
+            assertEquals(movies.size(), 1);
+            assertEquals(movies.get(0).getTitle(), "Smierc w Wenecji");
+
+            Query query2 = session.getNamedQuery("movie.findByScoreAbove");
+            query2.setParameter("score", 9.0);
+            List<Movie> movies2 = query2.list();
+            assertEquals(movies2.size(), 0);
+        }
+    }
+
+    //TODO: java.lang.NullPointerException
+    //at org.hibernate.hql.internal.ast.util.JoinProcessor.processDynamicFilterParameters(JoinProcessor.java:245)
+    //cos nie tak z typem filtra?
+    @Ignore
+    @Test
+    public void filtering() {
+        //add movies to db
+        try(Session session = SessionUtil.getSession()) {
+            Transaction tx = session.beginTransaction();
+
+            Movie movie = new Movie();
+            movie.setTitle("Smierc w Wenecji");
+            movie.setGenre(MovieGenre.ACTION);
+            movie.setReleaseDate(LocalDate.of(2001, 4, 1));
+            movie.setCompany("Warner Bros");
+            movie.setRating(18);
+
+            session.save(movie);
+
+            Movie movie2 = new Movie();
+            movie2.setTitle("Mis Uszatek");
+            movie2.setGenre(MovieGenre.ACTION);
+            movie2.setReleaseDate(LocalDate.of(2001, 4, 1));
+            movie2.setCompany("Walt Disney");
+            movie2.setRating(7);
+
+            session.save(movie2);
+
+            Movie movie3 = new Movie();
+            movie3.setTitle("Mis Uszatek: Teenage edition");
+            movie3.setGenre(MovieGenre.ACTION);
+            movie3.setReleaseDate(LocalDate.of(2001, 4, 1));
+            movie3.setCompany("Walt Disney");
+            movie3.setRating(12);
+
+            session.save(movie3);
+
+            tx.commit();
+        }
+        //filtering
+        try(Session session = SessionUtil.getSession()) {
+            Query<Movie> query = session.createQuery("from Movie", Movie.class);
+            session.enableFilter("byCompany").setParameter("company", "Walt Disney");
+            session.enableFilter("byAgeRating").setParameter("rating", 7);
+            List<Movie> filteredMovies = query.list();
+            assertNotNull(filteredMovies);
+            assertEquals(filteredMovies.size(), 1);
+            assertEquals(filteredMovies.get(0).getTitle(), "Mis Uszatek");
         }
     }
 

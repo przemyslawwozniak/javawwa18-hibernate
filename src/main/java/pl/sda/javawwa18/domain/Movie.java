@@ -1,9 +1,14 @@
 package pl.sda.javawwa18.domain;
 
+import org.hibernate.annotations.*;
 import pl.sda.javawwa18.listener.MovieEntityListener;
 import pl.sda.javawwa18.validation.DvdReleaseDate;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -15,7 +20,20 @@ import java.util.List;
 @Table(name = "movies")
 @DvdReleaseDate
 @NamedQueries({
-        @NamedQuery(name = "movie.findByCompany", query = "from Movie m where m.company=:company")
+        @NamedQuery(name = "movie.findByCompany", query = "from Movie m where m.company=:company"),
+        @NamedQuery(name = "movie.findByScoreAbove", query = "from Movie m where m.avgScore >=: score")
+})
+//parameters = {@ParamDef(), @ParamDef}
+@FilterDefs({
+        @FilterDef(name = "byCompany", parameters = {@ParamDef(name = "company", type="string")}),    //'string' a nie 'String'!!!
+        @FilterDef(name = "byAgeRating", parameters = {@ParamDef(name = "rating", type="integer")})
+        //@FilterDef(name = "byCastIncludes", parameters = @ParamDef(name = "cast", type = "String"))
+})
+@Filters({
+        //from Movie c where c.company =: company
+        @Filter(name = "byCompany", condition = "company =: company"),
+        @Filter(name = "byAgeRating", condition = "rating =: rating")
+        //@Filter(name = "byCastIncludes", condition = "cast like '%cast%'") - jak uzyc parametru?
 })
 public class Movie {
 
@@ -53,6 +71,8 @@ public class Movie {
     int daysFromRelease;
 
     String company;
+
+    int rating;
 
     public Long getMovieId() {
         return movieId;
@@ -128,5 +148,13 @@ public class Movie {
 
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 }
